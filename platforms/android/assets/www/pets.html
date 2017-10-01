@@ -78,6 +78,7 @@
                     success: function(response) {
                         for (var i = response.length - 1; i >= 0; i--) {
                             $('#pets-data').append(
+                                '<a href="pets-details.html?id='+response[i].id+'">' + 
                                 '<li class="collection-item avatar">' + 
                                 '<img src="http://cebupoundanimals.herokuapp.com/images/'+response[i].image+'" class="circle">' + 
                                 '<span class="title">'+response[i].name+'</span>' +
@@ -85,7 +86,8 @@
                                      response[i].gender+
                                 '</p>'+
                                 '<a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>' +
-                                '</li>'
+                                '</li>' + 
+                                '</a>'
                             );
                         }
                     }

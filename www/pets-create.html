@@ -48,7 +48,7 @@
                         <label for="first_name">Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="age" type="text" class="validate" name="age" placeholder="Age">
+                        <input id="age" type="number" class="validate" name="age" placeholder="Age">
                         <label for="last_name">Age</label>
                     </div>
                     </div>
@@ -116,7 +116,7 @@
                     var name = $('#name').val();
                     var age = $('#age').val();
                     var gender = $('#gender').val();
-                    var image = $('#image').val();
+                    var image = $('#img').val();
                     var breed = $('#breed').val();
                     var color = $('#color').val();
                     var pet_type_id = $('#pet_type_id').val();
@@ -128,7 +128,7 @@
                             name: name, 
                             age: age,
                             gender: gender,
-                            image: image,
+                            image: 'asdas',
                             breed: breed,
                             color: color,
                             pet_type_id: pet_type_id,
@@ -180,7 +180,7 @@
                     );
                 });
             });
-            $(document).ready(function(){
+            // $(document).ready(function(){
 
                 // Take photo from camera
                 $('#but_take').click(function(){
@@ -201,14 +201,16 @@
                 // Change image source
                 function onSuccess(imageData) {
                     var image = document.getElementById('img');
-                    image.src = imageData + '?' + Math.random();;
+                    setTimeout(function(){ 
+                        image.src = "data:image/jpeg;base64," + imageData;
+                    }, 3000);
                 }
 
                 function onFail(message) {
                     alert('Failed because: ' + message);
                 }
 
-            });
+            // });
         </script>
     </body>
 </html>
