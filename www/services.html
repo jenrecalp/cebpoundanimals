@@ -63,6 +63,7 @@
                 </li>
                     <li><a href="pets.html">Pets</a></li>
                     <li><a href="services.html">Services</a></li>
+                    <li><a href="services.html">Notifications <span class="new badge">4</span></a></li>
                     <li><div class="divider"></div></li>
                 <li><a class="waves-effect" href="#" id="logout">Logout</a></li>
             </ul>    
@@ -96,7 +97,7 @@
         <script>
             $.ajax({
                 method: "GET",
-                url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/" + localStorage.getItem('user_id'),
+                url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/service/schedules/" + localStorage.getItem('user_id'),
                 success: function(response) {
                     for (var i = response.length - 1; i >= 0; i--) {
                         $('#pets-data').append(

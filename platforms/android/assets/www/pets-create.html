@@ -13,6 +13,9 @@
         <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
        <!--  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: cdvphotolibrary:"> -->
         <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'" />
+        <meta http-equiv="Content-Security-Policy"
+content="default-src 'self' * data: gap: filesystem: https://ssl.gstatic.com3 https://maps.googleapis.com/1 https://maps.gstatic.com/ https://mts0.googleapis.com/1 'unsafe-inline' 
+'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -25,7 +28,7 @@
         <div>   
             <nav>
                 <div class="nav-wrapper">
-                    <a href="#" class="brand-logo center">Cebu Pound Animal</a>
+                    <a href="#" class="brand-logo center">Cebu Pound</a>
                     <ul id="nav-mobile">
                     <li><a href="#" data-activates="slide-out" class="button-collapse">Menu</a>  </li>
                     </ul>
@@ -35,10 +38,11 @@
             <div class="row">
                 <form class="col s12">
                     
-                    <div class="row">
+                    <!-- <div class="row"> -->
                         <div style="margin:0 auto; width:30%!important;text-align: center;">
-                        <img src="img/cam2.jpg" id='img' style="width: 100px; height: 100px;">
-                    </div><br/>
+                            <img src="" id='img' style="width: 100px; height: 100px;">
+                        </div>
+                    <!-- </div> -->
                     <div style="width:100%; text-align:center; padding:10px;">
                         <button id='but_take'>Take photo</button>
                         <button id='but_select'>Select photo from Gallery</button>
@@ -97,6 +101,7 @@
                 </li>
                     <li><a href="pets.html">Pets</a></li>
                     <li><a href="services.html">Services</a></li>
+                    <li><a href="services.html">Notifications </a></li>
                     <li><div class="divider"></div></li>
                     <li><a class="waves-effect" href="#" id="logout">Logout</a></li>
                 <!-- <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
@@ -128,7 +133,7 @@
                             name: name, 
                             age: age,
                             gender: gender,
-                            image: 'asdas',
+                            image: image,
                             breed: breed,
                             color: color,
                             pet_type_id: pet_type_id,
@@ -142,7 +147,7 @@
 
                         window.plugins.toast.showShortBottom('Pet created...');
 
-                        Window.location.href = "pets.html";
+                        window.location.href = "pets.html";
                       }else{
                         // alert('Unable to create pet...');
                         window.plugins.toast.showShortBottom('Unable to create pet...');
@@ -181,34 +186,44 @@
                 });
             });
             // $(document).ready(function(){
-
+                document.getElementById('but_select').addEventListener('click', takePicture);
                 // Take photo from camera
-                $('#but_take').click(function(){
-                    navigator.camera.getPicture(onSuccess, onFail, { quality: 20,
-                        destinationType: Camera.DestinationType.FILE_URL 
-                    });
-                });
+                // $('#but_take').click(function(){
+                //     navigator.camera.getPicture(test, onFail, { quality: 100,
+                //         destinationType: Camera.DestinationType.DATA_URL 
+                //     });
+                // });
 
-                // Select from gallery 
-                $("#but_select").click(function(){
-                    navigator.camera.getPicture(onSuccess, onFail, { quality: 50,
-                        sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
-                        allowEdit: true,
-                        destinationType: Camera.DestinationType.FILE_URI
-                    });
-                });
+                // // Select from gallery 
+                // $("#but_select").click(function(){
+                //     navigator.camera.getPicture(test, onFail, { quality: 100,
+                //         sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+                //         // allowEdit: true,
+                //         destinationType: Camera.DestinationType.DATA_URL
+                //     });
+                // });
 
                 // Change image source
-                function onSuccess(imageData) {
-                    var image = document.getElementById('img');
-                    setTimeout(function(){ 
-                        image.src = "data:image/jpeg;base64," + imageData;
-                    }, 3000);
-                }
 
-                function onFail(message) {
-                    alert('Failed because: ' + message);
+                function takePicture() {
+                    // alert('aw');
+                    navigator.camera.getPicture(test, onFail, { 
+                        quality: 50,
+                        sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+                        // allowEdit: true,
+                        destinationType: Camera.DestinationType.DATA_URL
+                    });
+                    function test(imageData) {
+                        alert(imageData);
+                        var image = document.getElementById('img');
+                        image.src = "data:image/jpeg;base64," + imageData;
+                    }
+
+                    function onFail(message) {
+                        alert('Failed because: ' + message);
+                    }  
                 }
+                
 
             // });
         </script>
