@@ -11,6 +11,7 @@
                 * Enable inline JS: add 'unsafe-inline' to default-src
         -->
         <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *"> -->
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'" />
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
@@ -31,6 +32,15 @@
             </nav>
             <br>
             <div class="row">
+                <div class="row">
+                    <div style="margin:0 auto; width:30%!important;text-align: center;">
+                        <img src="" id='img' style="width: 100px; height: 100px;">
+                    </div>
+                </div>
+                <div style="width:100%; text-align:center; padding:10px;">
+                    <button id='but_take'>Take photo</button>
+                    <button id='but_select'>Select photo from Gallery</button>
+                </div>
                 <form class="col s12">
                     <div class="row">
                     <div class="input-field col s6">
@@ -124,6 +134,8 @@
                         $('#breed').val(response.breed);
                         $('#color').val(response.color);
                         $('#pet_type_id').val(response.pet_type_id);
+                        $('#img').attr('src', response.image);
+                        $('#img').attr('value', response.image);
                     }
                 });
                 $('#submit').click(function (e) {
@@ -131,7 +143,7 @@
                     var name = $('#name').val();
                     var age = $('#age').val();
                     var gender = $('#gender').val();
-                    var image = $('#image').val();
+                    var image = $('#img').val();
                     var breed = $('#breed').val();
                     var color = $('#color').val();
                     var pet_type_id = $('#pet_type_id').val();
@@ -142,20 +154,22 @@
                             name: name, 
                             age: age,
                             gender: gender,
-                            image: 'image',
+                            image: image,
                             breed: breed,
                             color: color,
                             pet_type_id: pet_type_id,
                             user_id: localStorage.getItem('user_id')    
-                        },
-                        success: function () {
-                            if(response.status)
-                            {
-                            alert('Pet updated...');
-                            }else{
-                            alert('Unable to create pet...');
-                            }
                         }
+                    }).done(function( response ) {
+                      if(response.status)
+                      {
+                        window.plugins.toast.showShortBottom('Pet updated...');
+
+                        window.location.href = "pets.html";
+                      }else{
+                        // alert('Unable to create pet...');
+                        window.plugins.toast.showShortBottom('Unable to create pet...');
+                      }
                     });
                 });
                 $('#logout').click(function() {
@@ -173,6 +187,33 @@
                     onClose: function(el) { }, // A function to be called when sideNav is closed
                     }
                 );
+            });
+            $(document).ready(function(){
+                // Take photo from camera
+                $('#but_take').click(function(){
+                    navigator.camera.getPicture(test, onFail, { quality: 100,
+                        destinationType: Camera.DestinationType.FILE_URI 
+                    });
+                });
+
+                // Select from gallery 
+                $("#but_select").click(function(){
+                    navigator.camera.getPicture(test, onFail, { quality: 100,
+                        sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
+                        // allowEdit: true,
+                        destinationType: Camera.DestinationType.FILE_URI
+                    });
+                });
+
+                function test(imageData) {
+                    var image = document.getElementById('img');
+                    image.src = imageData;
+                    image.value = imageData;
+                }
+
+                function onFail(message) {
+                    alert('Failed because: ' + message);
+                }
             });
         </script>
     </body>
