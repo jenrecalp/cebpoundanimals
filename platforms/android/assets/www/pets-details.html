@@ -48,13 +48,17 @@
                         <label for="first_name">Name</label>
                     </div>
                     <div class="input-field col s6">
-                        <input id="age" type="text" class="validate" placeholder="Age">
+                        <input type="text" class="datepicker" name="birth_date" id="birth_date" >
+                        <label for="last_name">Birthdate</label>
+                    </div>
+                    
+                    <div class="input-field col s6">
+                        <input id="age" type="number" class="validate" name="age" placeholder="Age" disabled>
                         <label for="last_name">Age</label>
                     </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
+                    <div class="input-field col s6" >
                             <select id="gender" name="gender">
+                                <!-- <option value="" disabled selected>Choose your option</option> -->
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -62,22 +66,24 @@
                         </div>
                     </div>
                     <div class="row">
-                    <div class="input-field col s12">
-                        <input id="breed" type="text" class="validate" placeholder="Breed">
-                        <label for="password">Breed</label>
-                    </div>
+                        <div class="input-field col s6" >
+                            <select id="pet_type_id" name="gender">
+                                <option value="1">Dog</option>
+                                <option value="2">Cat</option>
+                            </select>
+                            <label>Type</label>
+                        </div>
+                        <div class="input-field col s6" >
+                            <select name="breed_id" id="breed">
+                            </select>
+                            <label>Breed</label>
+                        </div>
+                        
                     </div>
                     <div class="row">
                     <div class="input-field col s12">
                         <input id="color" type="email" class="validate" placeholder="Color">
                         <label for="email">Color</label>
-                    </div>
-                    <div class="input-field col s12" >
-                        <select id="pet_type_id" name="gender">
-                            <option value="1">Dog</option>
-                            <option value="2">Cat</option>
-                        </select>
-                        <label>Type</label>
                     </div>
                     <a class="waves-effect waves-light btn-large" id="submit">Update</a>
                 </form>
@@ -95,7 +101,8 @@
                 </li>
                     <li><a href="pets.html">Pets</a></li>
                     <li><a href="services.html">Services</a></li>
-                    <li><a href="services.html">Notifications <span class="new badge">4</span></a></li>
+                    <li><a href="history.html">History </a></li>
+                    <li><a href="notifications.html">Notifications <span class="new badge">4</span></a></li>
                     <li><div class="divider"></div></li>
                     <li><a class="waves-effect" href="#" id="logout">Logout</a></li>
                 <!-- <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
@@ -107,7 +114,60 @@
         <script type="text/javascript" src="js/material.js"></script>
         <script>
             $(document).ready(function () {
+                $('.datepicker').pickadate({
+                    selectMonths: true, // Creates a dropdown to control month
+                    selectYears: 15, // Creates a dropdown of 15 years to control year,
+                    today: 'Today',
+                    clear: 'Clear',
+                    close: 'Ok',
+                    closeOnSelect: false // Close upon selecting a date,
+                }); 
+                $('#birth_date').change(function () {
+                    var birt_date = $('#birth_date').val();
+                    var d = new Date( birt_date );
+                    year = d.getFullYear();
+                    month = d.getMonth();
+                    day = d.getDate();
+
+                    var age = calculate_age(month, day, year);
+                    $('#age').val(age);
+                });
                 $('select').material_select();
+                $('#pet_type_id').change(function(){
+                    var pet_type_id = $('#pet_type_id').val();
+                    $.ajax({
+                        method: "GET",
+                        url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/type/"+ pet_type_id,
+                        success: function(response) {
+                            $('select').material_select();
+                            document.getElementById('breed').options.length = 0;
+                            for(var i in response) {
+                                
+                                $('#breed').append(
+                                    '<option value="'+response[i].id+'">'+response[i].name+'</option>'
+                                );
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error)
+                        }
+                    });
+                });
+                    
+                var pet_type_id = $('#pet_type_id').val();
+                $.ajax({
+                    method: "GET",
+                    url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/type/"+ pet_type_id
+                }).done(function( response ) {
+                    
+                    document.getElementById('breed').options.length = 0;
+                    for(var i in response) {
+                        
+                        $('#breed').append(
+                            '<option value="'+response[i].id+'">'+response[i].name+'</option>'
+                        );
+                    }
+                });
                 var getUrlParameter = function getUrlParameter(sParam) {
                 var sPageURL = decodeURIComponent(window.location.search.substring(1)),
                 sURLVariables = sPageURL.split('&'),
@@ -131,7 +191,7 @@
                         $('#name').val(response.name);
                         $('#age').val(response.age);
                         $('#gender').val(response.gender);
-                        $('#breed').val(response.breed);
+                        $('#breed').val(response.breed_id);
                         $('#color').val(response.color);
                         $('#pet_type_id').val(response.pet_type_id);
                         $('#img').attr('src', response.image);
@@ -144,7 +204,7 @@
                     var age = $('#age').val();
                     var gender = $('#gender').val();
                     var image = $('#img').val();
-                    var breed = $('#breed').val();
+                    var breed_id = $('#breed').val();
                     var color = $('#color').val();
                     var pet_type_id = $('#pet_type_id').val();
                     $.ajax({
@@ -155,7 +215,7 @@
                             age: age,
                             gender: gender,
                             image: image,
-                            breed: breed,
+                            breed_id: breed_id,
                             color: color,
                             pet_type_id: pet_type_id,
                             user_id: localStorage.getItem('user_id')    
@@ -215,6 +275,24 @@
                     alert('Failed because: ' + message);
                 }
             });
+            function calculate_age(birth_month,birth_day,birth_year)
+            {
+                today_date = new Date();
+                today_year = today_date.getFullYear();
+                today_month = today_date.getMonth();
+                today_day = today_date.getDate();
+                age = today_year - birth_year;
+            
+                if ( today_month < (birth_month - 1))
+                {
+                    age--;
+                }
+                if (((birth_month - 1) == today_month) && (today_day < birth_day))
+                {
+                    age--;
+                }
+                return age;
+            }
         </script>
     </body>
 </html>
