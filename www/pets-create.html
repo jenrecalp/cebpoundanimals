@@ -262,7 +262,7 @@
 
                 function test(imageData) {
                     var image = document.getElementById('img');
-                    image.src = imageData;
+                    image.src = "data:image/jpeg;base64," + imageData;
                     image.value = "data:image/jpeg;base64," + imageData;
                 }
 
