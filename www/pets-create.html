@@ -247,7 +247,7 @@
                 // Take photo from camera
                 $('#but_take').click(function(){
                     navigator.camera.getPicture(test, onFail, { quality: 100,
-                        destinationType: Camera.DestinationType.FILE_URI 
+                        destinationType: Camera.DestinationType.DATA_URL 
                     });
                 });
 
@@ -256,7 +256,7 @@
                     navigator.camera.getPicture(test, onFail, { quality: 100,
                         sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
                         // allowEdit: true,
-                        destinationType: Camera.DestinationType.FILE_URI
+                        destinationType: Camera.DestinationType.DATA_URL
                     });
                 });
 
