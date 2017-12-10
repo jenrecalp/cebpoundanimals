@@ -246,14 +246,14 @@
             $(document).ready(function(){
                 // Take photo from camera
                 $('#but_take').click(function(){
-                    navigator.camera.getPicture(test, onFail, { quality: 100,
-                        destinationType: Camera.DestinationType.DATA_URL 
+                    navigator.camera.getPicture(test, onFail, { quality: 20,
+                        destinationType: Camera.DestinationType.DATA_URL
                     });
                 });
 
                 // Select from gallery 
                 $("#but_select").click(function(){
-                    navigator.camera.getPicture(test, onFail, { quality: 100,
+                    navigator.camera.getPicture(test, onFail, { quality: 20,
                         sourceType: Camera.PictureSourceType.PHOTOLIBRARY, 
                         // allowEdit: true,
                         destinationType: Camera.DestinationType.DATA_URL
