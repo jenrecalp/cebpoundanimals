@@ -68,8 +68,8 @@
                     <div class="row">
                         <div class="input-field col s6" >
                             <select id="pet_type_id" name="gender">
-                                <option value="1">Dog</option>
-                                <option value="2">Cat</option>
+                                <option value="2">Dog</option>
+                                <option value="1">Cat</option>
                             </select>
                             <label>Type</label>
                         </div>
@@ -175,17 +175,19 @@
                     var breed_id = $('#breed').val();
                     var color = $('#color').val();
                     var pet_type_id = $('#pet_type_id').val();
+                    var birth_date = $('#birth_date').val();
           
                     $.ajax({
                         method: "POST",
-                        // url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/create",
                         url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/create",
+                        // url: "http://localhost:8000/mobile/mypets/create",
                         data: { 
                             name: name, 
                             age: age,
                             gender: gender,
                             image: image,
                             breed_id: breed_id,
+                            birth_date: birth_date,
                             color: color,
                             pet_type_id: pet_type_id,
                             user_id: localStorage.getItem('user_id')    
