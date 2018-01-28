@@ -103,22 +103,21 @@
                     success: function(res) {
                         var response = res.pets;
                         for (var i = response.length - 1; i >= 0; i--) {
-                            $('#pets-data').append(
-                                '<a href="pets-details.html?id='+response[i].id+'">' + 
-                                '<li class="collection-item avatar">' + 
-                                // '<img src="http://cebupoundanimals.herokuapp.com/images/'+response[i].image+'" class="circle">' + 
-                                '<img src="'+response[i].image_mobile+'" class="circle">' + 
-                                '<span class="title">'+response[i].name+'</span>' +
-                                '<p>'+response[i].breed+' <br>' +
-                                     response[i].gender+
-                                '</p>'+
-                                '<a class="waves-effect waves-light btn modal-trigger click-modal secondary-content" href="#modal1"  data-id="'+response[i].id+'">Request</a>' + 
-                                '</li>' + 
-                                '</a>'
-
-
-
-                            );
+                            if(typeof response[i].impound === 'undefined' || typeof response[i].impound === null){
+                                $('#pets-data').append(
+                                    '<a href="pets-details.html?id='+response[i].id+'">' + 
+                                    '<li class="collection-item avatar">' + 
+                                    // '<img src="http://cebupoundanimals.herokuapp.com/images/'+response[i].image+'" class="circle">' + 
+                                    '<img src="'+response[i].image_mobile+'" class="circle">' + 
+                                    '<span class="title">'+response[i].name+'</span>' +
+                                    '<p>'+response[i].breed+' <br>' +
+                                         response[i].gender+
+                                    '</p>'+
+                                    '<a class="waves-effect waves-light btn modal-trigger click-modal secondary-content" href="#modal1"  data-id="'+response[i].id+'">Request</a>' + 
+                                    '</li>' + 
+                                    '</a>'
+                                );
+                            }
                         }
                     }
                 });
