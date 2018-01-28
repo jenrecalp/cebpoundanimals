@@ -53,7 +53,7 @@
                     </div>
                     
                     <div class="input-field col s6">
-                        <input id="age" type="number" class="validate" name="age" placeholder="Age" disabled>
+                        <input id="age" type="text" class="validate" name="age" placeholder="Age" readonly>
                         <label for="last_name">Age</label>
                     </div>
                     <div class="input-field col s6" >
@@ -114,23 +114,37 @@
         <script type="text/javascript" src="js/material.js"></script>
         <script>
             $(document).ready(function () {
+                var nowDate  = new Date;
+                var yearNowDate  = nowDate.getFullYear();
+                var monthNowDate = nowDate.getMonth();
+                var dateNowDate  = nowDate.getDate();
+
                 $('.datepicker').pickadate({
                     selectMonths: true, // Creates a dropdown to control month
                     selectYears: 15, // Creates a dropdown of 15 years to control year,
                     today: 'Today',
                     clear: 'Clear',
                     close: 'Ok',
-                    closeOnSelect: false // Close upon selecting a date,
+                    closeOnSelect: false, // Close upon selecting a date,
+                    max: new Date(yearNowDate,monthNowDate,dateNowDate)
                 }); 
                 $('#birth_date').change(function () {
                     var birt_date = $('#birth_date').val();
                     var d = new Date( birt_date );
                     year = d.getFullYear();
-                    month = d.getMonth();
+                    month = d.getMonth() +  1;
                     day = d.getDate();
-
-                    var age = calculate_age(month, day, year);
+    
+                    var MyDate = new Date(month+'/'+day+'/'+year);
+                    var MyDateString;
+    
+                    MyDate.setDate(MyDate.getDate());
+    
+                    MyDateString = ('0' + (MyDate.getMonth()+1)).slice(-2) + '/' + ('0' + MyDate.getDate()).slice(-2) + '/' + MyDate.getFullYear();
+                    console.log(MyDateString)
+                    var age = getAge(MyDateString);
                     $('#age').val(age);
+                    
                 });
                 $('select').material_select();
                 $('#pet_type_id').change(function(){
@@ -191,11 +205,12 @@
                         $('#name').val(response.name);
                         $('#age').val(response.age);
                         $('#gender').val(response.gender);
-                        $('#breed').val(response.breed_id);
+                        $('#breed_id').val(response.breed_id);
                         $('#color').val(response.color);
                         $('#pet_type_id').val(response.pet_type_id);
                         $('#img').attr('src', response.image);
                         $('#img').attr('value', response.image);
+                        $('#birth_date').val(response.birth_date);
                     }
                 });
                 $('#submit').click(function (e) {
@@ -205,6 +220,7 @@
                     var gender = $('#gender').val();
                     var image = $('#img').val();
                     var breed_id = $('#breed').val();
+                    var birth_date = $('#birth_date').val();
                     var color = $('#color').val();
                     var pet_type_id = $('#pet_type_id').val();
                     $.ajax({
@@ -292,6 +308,82 @@
                     age--;
                 }
                 return age;
+            }
+            function getAge(dateString) {
+                var now = new Date();
+                var today = new Date(now.getYear(),now.getMonth(),now.getDate());
+
+                var yearNow = now.getYear();
+                var monthNow = now.getMonth();
+                var dateNow = now.getDate();
+
+                var dob = new Date(dateString.substring(6,10),
+                                    dateString.substring(0,2)-1,                   
+                                    dateString.substring(3,5)                  
+                                    );
+
+                var yearDob = dob.getYear();
+                var monthDob = dob.getMonth();
+                var dateDob = dob.getDate();
+                var age = {};
+                var ageString = "";
+                var yearString = "";
+                var monthString = "";
+                var dayString = "";
+
+
+                yearAge = yearNow - yearDob;
+
+                if (monthNow >= monthDob)
+                    var monthAge = monthNow - monthDob;
+                else {
+                    yearAge--;
+                    var monthAge = 12 + monthNow -monthDob;
+                }
+
+                if (dateNow >= dateDob)
+                    var dateAge = dateNow - dateDob;
+                else {
+                    monthAge--;
+                    var dateAge = 31 + dateNow - dateDob;
+
+                    if (monthAge < 0) {
+                    monthAge = 11;
+                    yearAge--;
+                    }
+                }
+
+                age = {
+                    years: yearAge,
+                    months: monthAge,
+                    days: dateAge
+                    };
+
+                if ( age.years > 1 ) yearString = " years";
+                else yearString = " year";
+                if ( age.months> 1 ) monthString = " months";
+                else monthString = " month";
+                if ( age.days > 1 ) dayString = " days";
+                else dayString = " day";
+
+
+                if ( (age.years > 0) && (age.months > 0) && (age.days > 0) )
+                    ageString = age.years + yearString + ", " + age.months + monthString + ", and " + age.days + dayString + " old.";
+                else if ( (age.years == 0) && (age.months == 0) && (age.days > 0) )
+                    ageString = "Only " + age.days + dayString + " old!";
+                else if ( (age.years > 0) && (age.months == 0) && (age.days == 0) )
+                    ageString = age.years + yearString + " old. Happy Birthday!!";
+                else if ( (age.years > 0) && (age.months > 0) && (age.days == 0) )
+                    ageString = age.years + yearString + " and " + age.months + monthString + " old.";
+                else if ( (age.years == 0) && (age.months > 0) && (age.days > 0) )
+                    ageString = age.months + monthString + " and " + age.days + dayString + " old.";
+                else if ( (age.years > 0) && (age.months == 0) && (age.days > 0) )
+                    ageString = age.years + yearString + " and " + age.days + dayString + " old.";
+                else if ( (age.years == 0) && (age.months > 0) && (age.days == 0) )
+                    ageString = age.months + monthString + " old.";
+                else ageString = "Oops! Could not calculate age!";
+
+                return ageString;
             }
         </script>
     </body>

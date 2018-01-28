@@ -79,34 +79,38 @@
                     window.location.href = "dashboard.html";
                 }
                 $('#submit').click(function (e) {
+                    // username: $('#username').val(), 
+                    if($('#username').val() == 'administrator') {
+                        alert('You are not allowed to login as administrator in mobile platform.');
+                    } else {
+                        e.preventDefault();
+                        $.ajax({
+                            method: "POST",
+                            url: "http://cebupoundanimals.herokuapp.com/mobile/login",
+                            data: { 
+                                username: $('#username').val(), 
+                                password: $('#password').val(),
+                                device_token: localStorage.getItem('device_token')
+                            },
+                            dataType: 'json',
 
-                    e.preventDefault();
-                    $.ajax({
-                        method: "POST",
-                        url: "http://cebupoundanimals.herokuapp.com/mobile/login",
-                        data: { 
-                            username: $('#username').val(), 
-                            password: $('#password').val(),
-                            device_token: localStorage.getItem('device_token')
-                        },
-                        dataType: 'json',
-
-                        success: function (response) {
-                            console.log(response);
-                            if(response.status) {
-                                localStorage.setItem("first_name", response.user.first_name);
-                                localStorage.setItem("last_name", response.user.last_name);
-                                localStorage.setItem("user_id", response.user.id);
-                                localStorage.setItem("email", response.user.email);
-                                window.location.href = "dashboard.html";
-                            }
-                            else{
-                                // alert('Invalid username/password');
-                                window.plugins.toast.showShortBottom('Invalid username/password');
-                                // Materialize.toast('Invalid username/password', 3000, 'rounded')
-                            }
-                        },
-                    });
+                            success: function (response) {
+                                console.log(response);
+                                if(response.status) {
+                                    localStorage.setItem("first_name", response.user.first_name);
+                                    localStorage.setItem("last_name", response.user.last_name);
+                                    localStorage.setItem("user_id", response.user.id);
+                                    localStorage.setItem("email", response.user.email);
+                                    window.location.href = "dashboard.html";
+                                }
+                                else{
+                                    // alert('Invalid username/password');
+                                    // window.plugins.toast.showShortBottom('Invalid username/password');
+                                    // Materialize.toast('Invalid username/password', 3000, 'rounded')
+                                }
+                            },
+                        });
+                    }
                 });
             });
         </script>
