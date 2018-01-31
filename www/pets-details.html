@@ -47,25 +47,24 @@
                         <input id="name" type="text" class="validate" placeholder="Name">
                         <label for="first_name">Name</label>
                     </div>
-                    <div class="input-field col s6">
+                   <!--  <div class="input-field col s6">
                         <input type="text" class="datepicker" name="birth_date" id="birth_date" >
                         <label for="last_name">Birthdate</label>
-                    </div>
+                    </div> -->
                     
                     <div class="input-field col s6">
                         <input id="age" type="text" class="validate" name="age" placeholder="Age" readonly>
                         <label for="last_name">Age</label>
                     </div>
-                    <div class="input-field col s6" >
+                    <!-- <div class="input-field col s6" >
                             <select id="gender" name="gender">
-                                <!-- <option value="" disabled selected>Choose your option</option> -->
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
                             <label>Gender</label>
                         </div>
-                    </div>
-                    <div class="row">
+                    </div> -->
+                    <!-- <div class="row">
                         <div class="input-field col s6" >
                             <select id="pet_type_id" name="gender">
                                 <option value="1">Dog</option>
@@ -79,7 +78,7 @@
                             <label>Breed</label>
                         </div>
                         
-                    </div>
+                    </div> -->
                     <div class="row">
                     <div class="input-field col s12">
                         <input id="color" type="email" class="validate" placeholder="Color">
@@ -203,14 +202,14 @@
                     success: function (response) {
                         console.log(response);
                         $('#name').val(response.name);
-                        $('#age').val(response.age);
-                        $('#gender').val(response.gender);
-                        $('#breed_id').val(response.breed_id);
+                        // $('#age').val(response.age);
+                        // $('#gender').val(response.gender);
+                        // $('#breed_id').val(response.breed_id);
                         $('#color').val(response.color);
-                        $('#pet_type_id').val(response.pet_type_id);
+                        // $('#pet_type_id').val(response.pet_type_id);
                         $('#img').attr('src', response.image);
                         $('#img').attr('value', response.image);
-                        $('#birth_date').val(response.birth_date);
+                        // $('#birth_date').val(response.birth_date);
                     }
                 });
                 $('#submit').click(function (e) {
@@ -228,12 +227,12 @@
                         url: "http://cebupoundanimals.herokuapp.com/mobile/mypets/update/"+ getUrlParameter('id'),
                         data: { 
                             name: name, 
-                            age: age,
-                            gender: gender,
+                            // age: age,
+                            // gender: gender,
                             image: image,
-                            breed_id: breed_id,
+                            // breed_id: breed_id,
                             color: color,
-                            pet_type_id: pet_type_id,
+                            // pet_type_id: pet_type_id,
                             user_id: localStorage.getItem('user_id')    
                         }
                     }).done(function( response ) {
