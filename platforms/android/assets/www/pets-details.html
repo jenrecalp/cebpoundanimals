@@ -47,18 +47,26 @@
                         <input id="name" type="text" class="validate" placeholder="Name">
                         <label for="first_name">Name</label>
                     </div>
-                    <div class="input-field col s6">
+                   
+                    <input type="hidden" name="birth_date" id="birth_date">
+                    <input type="hidden" name="age" id="age">
+                    <input type="hidden" id="gender" name="gender">
+                    <input type="hidden" id="pet_type_id" name="pet_type_id">
+                    <input type="hidden" name="breed_id" id="breed_id">
+
+                    
+                   
+                    <!-- <div class="input-field col s6">
                         <input type="text" class="datepicker" name="birth_date" id="birth_date" >
                         <label for="last_name">Birthdate</label>
-                    </div>
+                    </div> -->
                     
                     <div class="input-field col s6">
                         <input id="age" type="text" class="validate" name="age" placeholder="Age" readonly>
                         <label for="last_name">Age</label>
                     </div>
-                    <div class="input-field col s6" >
+                   <!--  <div class="input-field col s6" >
                             <select id="gender" name="gender">
-                                <!-- <option value="" disabled selected>Choose your option</option> -->
                                 <option value="Male">Male</option>
                                 <option value="Female">Female</option>
                             </select>
@@ -79,7 +87,7 @@
                             <label>Breed</label>
                         </div>
                         
-                    </div>
+                    </div> -->
                     <div class="row">
                     <div class="input-field col s12">
                         <input id="color" type="email" class="validate" placeholder="Color">
@@ -102,7 +110,7 @@
                     <li><a href="pets.html">Pets</a></li>
                     <li><a href="services.html">Services</a></li>
                     <li><a href="history.html">History </a></li>
-                    <li><a href="notifications.html">Notifications <span class="new badge">4</span></a></li>
+                    <li><a href="notifications.html">Notifications </a></li>
                     <li><div class="divider"></div></li>
                     <li><a class="waves-effect" href="#" id="logout">Logout</a></li>
                 <!-- <li><a class="waves-effect" href="#!">Third Link With Waves</a></li> -->
